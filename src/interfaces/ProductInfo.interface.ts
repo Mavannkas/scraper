@@ -1,5 +1,6 @@
 export interface ProductInfo {
-	id: number;
+	id: string;
+	brand: string;
 	name: string;
 	color: string;
 	price: number;

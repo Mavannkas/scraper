@@ -3,10 +3,12 @@ import { ProductInfo } from './ProductInfo.interface';
 
 export interface IScraper {
 	productLinks: string[];
-	start(): void;
+	products: ProductInfo[];
+	start(): Promise<void>;
 	getPage(url: string): Promise<HTMLElement>;
 	getAllProductLinksFromPage(page: number): Promise<string[]>;
 	getAllProductLinks(): Promise<void>;
 	extractData(element: HTMLElement): ProductInfo;
 	createUrl(paramData: Array<string | number>): string;
+	getProductsInfo(): Promise<void>;
 }

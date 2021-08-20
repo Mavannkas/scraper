@@ -55,6 +55,20 @@ describe('getAllProductLinks', () => {
 		expect(scraper.productLinks.length).toBeGreaterThan(0);
 	});
 });
+
+describe('getProductsInfo', () => {
+	jest.setTimeout(10000000);
+
+	it('Should be defined', async () => {
+		expect(scraper.getProductsInfo()).toBeDefined();
+	});
+
+	it('Should append few links to this.product', async () => {
+		await scraper.getAllProductLinks();
+		await scraper.getProductsInfo();
+		expect(scraper.products.length).toBeGreaterThan(0);
+	});
+});
 // it('Return array with product info', async () => {
 // 	const output: ProductInfo = {
 // 		id: 1,
