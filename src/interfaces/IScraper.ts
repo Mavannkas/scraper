@@ -6,4 +6,5 @@ export interface IScraper {
 	getPage(url: string): Promise<HTMLElement>;
 	getAllProductsFromPage(page: number): Promise<ProductInfo[]>;
 	extractData(element: HTMLElement): ProductInfo;
+	createUrl(paramData: Array<string | number>): string;
 }

@@ -49,3 +49,13 @@ describe('getAllProductsFromPage', () => {
 		expect((await scraper.getAllProductsFromPage(1))[0]).toEqual(output);
 	});
 });
+
+describe('createUrl', () => {
+	it('Should be defined', async () => {
+		expect(scraper.createUrl([1])).toBeDefined();
+	});
+
+	it('Should return created url', async () => {
+		expect(scraper.createUrl([1])).toBe('https://www.deichmann.com/PL/pl/shop/meskie/meskie-buty-meskie.cat?s=1');
+	});
+});

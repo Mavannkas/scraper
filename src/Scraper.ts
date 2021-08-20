@@ -4,11 +4,13 @@ import axios from 'axios';
 import { ProductInfo } from './interfaces/ProductInfo.interface';
 
 export class Scraper implements IScraper {
-	constructor(url: string, params: string[]) {
-		this.getPage('https://www.deichmann.com/PL/pl/shop/meskie/meskie-buty-meskie.cat?s=1');
+	constructor(private url: string, private params: string[]) {}
+
+	async getAllProductsFromPage(page: number): Promise<ProductInfo[]> {
+		const createdUrl = this.createUrl([page]);
 	}
 
-	getAllProductsFromPage(page: number): Promise<ProductInfo[]> {
+	createUrl(paramData: (string | number)[]): string {
 		throw new Error('Method not implemented.');
 	}
 
