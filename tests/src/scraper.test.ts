@@ -24,29 +24,13 @@ describe('GetPage', () => {
 	});
 });
 
-describe('getAllProductsFromPage', () => {
+describe('getAllProductLinksFromPage', () => {
 	it('Should be defined', async () => {
-		expect(await scraper.getAllProductsFromPage(1)).toBeDefined();
+		expect(await scraper.getAllProductLinksFromPage(1)).toBeDefined();
 	});
 
-	it('Return array with product info', async () => {
-		const output: ProductInfo = {
-			id: 1,
-			added: new Date(),
-			color: 'red',
-			material: 'sds',
-			model: 'sds',
-			name: 'asdasd',
-			photoUrl: 'asdasd',
-			price: 121,
-		};
-
-		jest.spyOn(scraper, 'extractData').mockRejectedValue(
-			//@ts-ignore
-			output
-		);
-
-		expect((await scraper.getAllProductsFromPage(1))[0]).toEqual(output);
+	it('Return array with product link', async () => {
+		expect((await scraper.getAllProductLinksFromPage(1))[0].length).toBeGreaterThan(26);
 	});
 });
 
@@ -59,3 +43,34 @@ describe('createUrl', () => {
 		expect(scraper.createUrl([1])).toBe('https://www.deichmann.com/PL/pl/shop/meskie/meskie-buty-meskie.cat?s=1');
 	});
 });
+
+describe('getAllProductLinks', () => {
+	jest.setTimeout(100000);
+	it('Should be defined', async () => {
+		expect(scraper.getAllProductLinks()).toBeDefined();
+	});
+
+	it.skip('Should append few links to this.productLinks', async () => {
+		await scraper.getAllProductLinks();
+		expect(scraper.productLinks.length).toBeGreaterThan(0);
+	});
+});
+// it('Return array with product info', async () => {
+// 	const output: ProductInfo = {
+// 		id: 1,
+// 		added: new Date(),
+// 		color: 'red',
+// 		material: 'sds',
+// 		model: 'sds',
+// 		name: 'asdasd',
+// 		photoUrl: 'asdasd',
+// 		price: 121,
+// 	};
+
+// 	jest.spyOn(scraper, 'extractData').mockRejectedValue(
+// 		//@ts-ignore
+// 		output
+// 	);
+
+// 	expect((await scraper.getAllProductsFromPage(1))[0]).toEqual(output);
+// });
