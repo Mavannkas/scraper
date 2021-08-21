@@ -63,28 +63,40 @@ describe('getProductsInfo', () => {
 		expect(scraper.getProductsInfo()).toBeDefined();
 	});
 
-	it('Should append few links to this.product', async () => {
+	it.skip('Should append few links to this.product', async () => {
 		await scraper.getAllProductLinks();
 		await scraper.getProductsInfo();
 		expect(scraper.products.length).toBeGreaterThan(0);
 	});
 });
-// it('Return array with product info', async () => {
-// 	const output: ProductInfo = {
-// 		id: 1,
-// 		added: new Date(),
-// 		color: 'red',
-// 		material: 'sds',
-// 		model: 'sds',
-// 		name: 'asdasd',
-// 		photoUrl: 'asdasd',
-// 		price: 121,
-// 	};
+describe('extractData', () => {
+	let page: HTMLElement;
 
-// 	jest.spyOn(scraper, 'extractData').mockRejectedValue(
-// 		//@ts-ignore
-// 		output
-// 	);
+	beforeEach(async () => {
+		page = await scraper.getPage(
+			'https://www.deichmann.com/PL/pl/shop/meskie/meskie-buty-meskie/buty-meskie-trampki/00006001731437/sneakersy*m%C4%99skie*adidas*Vs*Pace.prod'
+		);
+	});
+	it('Should be defined', async () => {
+		expect(scraper.extractData(page)).toBeDefined();
+	});
 
-// 	expect((await scraper.getAllProductsFromPage(1))[0]).toEqual(output);
-// });
+	it('Should append return valid object', async () => {
+		const output: ProductInfo = {
+			id: '18401304',
+			added: new Date(),
+			color: 'popielaty',
+			material: 'materiał syntetyczny',
+			model: 'adidas vs Pace',
+			name: 'sneakersy męskie adidas Vs Pace',
+			photoUrl:
+				'https://deichmann.scene7.com/asset/deichmann/product-with-gradient/p_pd_gradiant/Markowe+sneakersy+mskie+adidas+Vs+Pace+-++-+deichmanncom--1731437_P.jpg?defaultImage=default',
+			price: 199.99,
+			brand: 'adidas',
+		};
+
+		const result = scraper.extractData(page);
+		result.added = output.added;
+		expect(result).toEqual(output);
+	});
+});

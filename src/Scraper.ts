@@ -22,7 +22,7 @@ export class Scraper implements IScraper {
 		const maxPage = +(await this.getPage(this.url)).querySelector('div.PAGINGUP_DOWN > ul > li:nth-child(8) > a')
 			.innerText;
 
-		for (let i = 1; i <= maxPage; i++) {
+		for (let i = 1; i <= 1; i++) {
 			const products = await this.getAllProductLinksFromPage(i);
 			this.productLinks.push(...products);
 		}
@@ -62,25 +62,26 @@ export class Scraper implements IScraper {
 	async getProductsInfo(): Promise<void> {
 		const promises: Promise<any>[] = [];
 		for (const url of this.productLinks) {
-			promises.push(
-				new Promise(async () => {
-					try {
-						const result = await this.getPage(url);
-						const extractedProductData = this.extractData(result);
-						console.log(this.productLinks.findIndex(item => item === url));
-						this.products.push(extractedProductData);
-					} catch (err) {}
-				})
-			);
+			// promises.push(
+			// new Promise(async () => {
+			try {
+				const result = await this.getPage(url);
+				const extractedProductData = this.extractData(result);
+				console.log(extractedProductData);
+				console.log(this.productLinks.findIndex(item => item === url));
+				this.products.push(extractedProductData);
+			} catch (err) {}
+			// })
+			// );
 		}
 
-		await Promise.allSettled(promises);
+		// await Promise.allSettled(promises);
 	}
 
 	extractData(body: HTMLElement): ProductInfo {
 		const id = body.querySelector('#product-description div').innerText.split(';')[1];
 		const brand = body.querySelector('.features > h1 a').innerText;
-		const name = body.querySelector('.features span').innerText;
+		const name = body.querySelector('.features .product-name').innerText;
 		const price = +body.querySelector('div.priceWrapper div div span.val').innerText.replace(',', '.');
 		const photoUrl = body.querySelector('.product-image img').getAttribute('src') ?? '';
 
@@ -96,33 +97,37 @@ export class Scraper implements IScraper {
 			name,
 			price,
 			added: new Date(),
-			material: this.getProductProp(description, 'material'),
-			color: this.getProductProp(description, 'color'),
-			model: this.getProductProp(description, 'model'),
+			material: this.getProductProp(description, 'material').trim().replace('&nbsp;', ''),
+			color: this.getProductProp(description, 'color').trim().replace('&nbsp;', ''),
+			model: this.getProductProp(description, 'model').trim().replace('&nbsp;', ''),
 			photoUrl,
 		};
 	}
 
 	getProductProp(descriptions: string[][], prop: string): string {
 		for (let i = 0; i < descriptions.length; i++) {
-			switch (descriptions[i][0]) {
+			switch (descriptions[i][0].trim()) {
 				case 'kolor':
 					if ('color' === prop) {
-						return descriptions[i][1];
+						return this.normaliseReturedString(descriptions[i][1]);
 					}
 					break;
 				case 'materiał wierzchni':
 					if ('material' === prop) {
-						return descriptions[i][1];
+						return this.normaliseReturedString(descriptions[i][1]);
 					}
 					break;
 				case 'model':
 					if ('model' === prop) {
-						return descriptions[i][1];
+						return this.normaliseReturedString(descriptions[i][1]);
 					}
 					break;
 			}
 		}
 		return '';
+	}
+
+	normaliseReturedString(str: string): string {
+		return str.trim().replace('&nbsp;', '');
 	}
 }
