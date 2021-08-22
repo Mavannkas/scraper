@@ -11,19 +11,21 @@ export class Scraper implements IScraper {
 	constructor(private url: string, private params: string[]) {}
 
 	async start(): Promise<void> {
-		console.log('step 1');
 		await this.getAllProductLinks();
-		console.log('step 2');
 		await this.getProductsInfo();
-		console.log(this.products);
 	}
 
 	async getAllProductLinks(): Promise<void> {
 		const maxPage = +(await this.getPage(this.url)).querySelector('div.PAGINGUP_DOWN > ul > li:nth-child(8) > a')
 			.innerText;
 
-		for (let i = 1; i <= 1; i++) {
+		for (let i = 1; i <= maxPage; i++) {
+			console.clear();
+			console.log('Step 1 getAllProductLinks');
+			console.log(`${i}/${maxPage}`);
+
 			const products = await this.getAllProductLinksFromPage(i);
+
 			this.productLinks.push(...products);
 		}
 	}
@@ -52,9 +54,6 @@ export class Scraper implements IScraper {
 
 			return parse(response.data as string);
 		} catch (err) {
-			console.log(url);
-
-			// return parse('');
 			throw new Error('Not Found');
 		}
 	}
@@ -62,20 +61,17 @@ export class Scraper implements IScraper {
 	async getProductsInfo(): Promise<void> {
 		const promises: Promise<any>[] = [];
 		for (const url of this.productLinks) {
-			// promises.push(
-			// new Promise(async () => {
 			try {
+				console.clear();
+				console.log('Step 2 getProductsInfo');
+				console.log(`${this.productLinks.findIndex(item => item === url)}/${this.productLinks.length}`);
+
 				const result = await this.getPage(url);
 				const extractedProductData = this.extractData(result);
-				console.log(extractedProductData);
-				console.log(this.productLinks.findIndex(item => item === url));
+
 				this.products.push(extractedProductData);
 			} catch (err) {}
-			// })
-			// );
 		}
-
-		// await Promise.allSettled(promises);
 	}
 
 	extractData(body: HTMLElement): ProductInfo {
@@ -128,6 +124,6 @@ export class Scraper implements IScraper {
 	}
 
 	normaliseReturedString(str: string): string {
-		return str.trim().replace('&nbsp;', '');
+		return str.trim().replace('&nbsp;', '').replace('&oacute;', '');
 	}
 }

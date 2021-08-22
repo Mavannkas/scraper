@@ -1,7 +1,7 @@
-import { IScraper } from '../../src/interfaces/IScraper';
-import { Scraper } from '../../src/Scraper';
 import { HTMLElement } from 'node-html-parser';
-import { ProductInfo } from '../../src/interfaces/ProductInfo.interface';
+import { IScraper } from '../../src/loader/interfaces/IScraper';
+import { ProductInfo } from '../../src/loader/interfaces/ProductInfo.interface';
+import { Scraper } from '../../src/loader/Scraper';
 
 const basicUrl = 'https://www.deichmann.com/PL/pl/shop/meskie/meskie-buty-meskie.cat?s=1';
 let scraper: IScraper;
