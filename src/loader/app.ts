@@ -7,7 +7,7 @@ import { DataBaseMannager } from './DataBaseManagaer';
 const main = async () => {
 	const scraper = new Scraper('https://www.deichmann.com/PL/pl/shop/meskie/meskie-buty-meskie.cat', ['s']);
 	await scraper.start();
-	
+
 	const dataBaseMannager = new DataBaseMannager();
 	await dataBaseMannager.init();
 

@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "nodemon src/app.ts",
 		"test": "jest --detectOpenHandles",
-		"load": "tsc -b ./ src/loader/app.ts & node dist/src/loader/app.js"
+		"load": "tsc src/loader/app.ts & node dist/src/loader/app.js"
 	},
 	"author": "",
 	"license": "ISC",
@@ -15,6 +15,7 @@
 		"express": "^4.17.1",
 		"mysql": "^2.18.1",
 		"node-html-parser": "^4.1.3",
+		"pug": "^3.0.2",
 		"reflect-metadata": "^0.1.13",
 		"typeorm": "^0.2.37"
 	},

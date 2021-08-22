@@ -1,0 +1,87 @@
+extends layout
+
+block content
+    div.container.bg-light
+        h1.h1.text-center Lista produktów
+
+        nav(aria-label="Page navigation example")
+            ul.pagination.pagination-sm.pagination-lg.justify-content-center.bg-light
+                if page == 1
+                    li.page-item.disabled
+                        a.page-link(href="#" tabindex="-1") Previous
+                    li.page-item.active
+                        a.page-link(href="#") 1
+                    li.page-item
+                        a.page-link(href="/"+ (+page + 1)) 2
+                    li.page-item.disabled
+                        a.page-link(href="#" tabindex="-1") ...       
+                    li.page-item
+                        a.page-link(href="/"+ (lastPage)) #{lastPage}
+                    li.page-item
+                        a.page-link(href="/"+ (+page + 1)) Next
+                else if page == lastPage
+                    li.page-item
+                        a.page-link(href="/"+ (+page - 1)) Previous
+                    li.page-item
+                        a.page-link(href="/") 1
+                    li.page-item.disabled
+                        a.page-link(href="#" tabindex="-1") ... 
+                    li.page-item
+                        a.page-link(href="/" + (lastPage - 1)) #{lastPage - 1}   
+                    li.page-item.active
+                        a.page-link(href="#") #{lastPage}
+                    li.page-item.disabled
+                        a.page-link(href="#") Next
+                else 
+                    li.page-item
+                        a.page-link(href="/"+ (+page - 1)) Previous
+                    li.page-item
+                        a.page-link(href="/") 1
+                    li.page-item.disabled
+                        a.page-link(href="#" tabindex="-1") ...
+                    if page != 2
+                        li.page-item
+                            a.page-link(href="/" + (page - 1)) #{page - 1}   
+                    li.page-item.active
+                        a.page-link(href="#") #{page}   
+                    if page != lastPage - 1
+                        li.page-item
+                            a.page-link(href="/" + (page + 1)) #{page + 1}
+                    li.page-item.disabled
+                        a.page-link(href="#" tabindex="-1") ... 
+                    li.page-item
+                        a.page-link(href="/" + lastPage) #{lastPage}
+                    li.page-item
+                        a.page-link(href="/"+ (+page + 1)) Next
+
+        ul.mt-4.mb-3.card-list
+            each product in products
+                .card
+                    .row.g-3
+                        .col-md-4 
+                            img(src=product.photoUrl alt="Zdjęcie buta").img-fluid.rounded-start
+                        .col-md-8 
+                            .card-body 
+                                h5.h3.card-title.mb-3 #{product.name ? product.name : "b/d"}
+                                p.card-text
+                                    span.text-muted Identyfikator produktu: 
+                                    | #{product.id ? product.id : "b/d"}
+                                p.card-text
+                                    span.text-muted Marka: 
+                                    | #{product.brand ? product.brand : "b/d"}
+                                p.card-text
+                                    span.text-muted Model: 
+                                    | #{product.model ? product.model : "b/d"}
+                                p.card-text
+                                    span.text-muted Kolor: 
+                                    | #{product.color ? product.color : "b/d"}
+                                p.card-text 
+                                    span.text-muted Materiał: 
+                                    | #{product.material ? product.material : "b/d"}
+                                p.card-text
+                                    span.text-muted Cena: 
+                                    span.text-primary #{product.price ? product.price : "b/d"}zł
+                                p.card-text.mt-4
+                                    small.text-muted Ostatnia aktualizacja - #{product.added ? product.added.toLocaleString() : "b/d"}
+
+
