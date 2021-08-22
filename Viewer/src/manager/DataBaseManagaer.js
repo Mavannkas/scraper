@@ -63,6 +63,7 @@ var DataBaseMannager = /** @class */ (function () {
                         return [3 /*break*/, 5];
                     case 4:
                         err_2 = _b.sent();
+                        console.log(err_2);
                         throw Error('Błąd połączenia z bazą danych');
                     case 5: return [3 /*break*/, 6];
                     case 6: return [2 /*return*/];

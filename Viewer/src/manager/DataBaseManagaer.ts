@@ -13,6 +13,7 @@ export class DataBaseMannager {
 			try {
 				this.connection = await createConnection();
 			} catch (err) {
+				console.log(err);
 				throw Error('Błąd połączenia z bazą danych');
 			}
 		}

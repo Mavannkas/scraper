@@ -1,4 +1,4 @@
-import { ProductInfo } from '../../loader/interfaces/ProductInfo.interface';
+import { ProductInfo } from './ProductInfo.interface';
 
 export interface ProductPageResponse {
 	products: ProductInfo[];
