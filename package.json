@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "nodemon src/app.ts",
 		"test": "jest --detectOpenHandles",
-		"load": "tsc src/loader/app.ts & node dist/src/loader/app.js"
+		"load": "tsc -b ./ src/loader/app.ts & node dist/src/loader/app.js",
+		"view": "tsc -b ./ src/viewer/app.ts & node dist/src/viewer/app.js"
 	},
 	"author": "",
 	"license": "ISC",
